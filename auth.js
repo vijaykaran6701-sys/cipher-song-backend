@@ -1,24 +1,26 @@
+const router = require("express").Router();
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-module.exports = function (req, res, next) {
-  try {
-    const authHeader = req.headers.authorization;
+router.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+  const hash = await bcrypt.hash(password, 10);
+  const user = await User.create({ name, email, password: hash });
+  res.json(user);
+});
 
-    if (!authHeader) {
-      return res.status(401).json({ msg: "No token, authorization denied" });
-    }
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ msg: "User not found" });
 
-    // Expected format: Bearer TOKEN
-    const token = authHeader.split(" ")[1];
+  const ok = await bcrypt.compare(password, user.password);
+  if (!ok) return res.status(400).json({ msg: "Wrong password" });
 
-    if (!token) {
-      return res.status(401).json({ msg: "Token missing" });
-    }
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  res.json({ token });
+});
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({ msg: "Token is not valid" });
-  }
-};
+module.exports = router;
+
