@@ -14,10 +14,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/frontend", express.static(path.join(__dirname, "frontend")));
 
 // Routes
-app.use("/api/auth", require("./routes/auth"));
+//app.use("/api/auth", require("./routes/auth"));
+const authRoutes = require("./routes/auth");
 app.use("/api/artists", require("./routes/artists"));
 app.use("/api/songs", require("./routes/songs"));
-const authRoutes = require("./routes/auth");
 
 // Test route
 app.get("/", (req, res) => {
