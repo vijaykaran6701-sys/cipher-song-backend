@@ -17,6 +17,7 @@ app.use("/frontend", express.static(path.join(__dirname, "frontend")));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/artists", require("./routes/artists"));
 app.use("/api/songs", require("./routes/songs"));
+const authRoutes = require("./routes/auth");
 
 // Test route
 app.get("/", (req, res) => {
