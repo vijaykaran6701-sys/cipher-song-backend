@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Library Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#22d3ee","background-light": "#f0fcfd",
+                        "background-dark": "#0b1517","surface-dark": "#16282b", 
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }.no-scrollbar {
+            -ms-overflow-style: none;scrollbar-width: none;}
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="relative flex min-h-screen w-full flex-col pb-24">
+<header class="sticky top-0 z-40 flex flex-col bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md transition-colors duration-300">
+<div class="flex items-center justify-between px-4 pt-4 pb-2">
+<div class="flex items-center gap-3">
+<a href="index.html" class="flex items-center gap-2">
+<img src="images/cipher_logo.png" alt="Cipher Song Logo" class="h-8 w-8 object-contain"/>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">cipher song</span>
+</a>
+</div>
+<div class="flex items-center gap-1">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Your Library</h1>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</div>
+</div>
+<div class="w-full overflow-x-auto no-scrollbar pb-2 pt-2 pl-4">
+<div class="flex gap-2 pr-4">
+<button class="shrink-0 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-4 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors active:scale-95 hover:border-slate-400 dark:hover:border-white/30">
+                        Playlists
+                    </button>
+<button class="shrink-0 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-4 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors active:scale-95 hover:border-slate-400 dark:hover:border-white/30">
+                        Artists
+                    </button>
+<button class="shrink-0 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-4 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors active:scale-95 hover:border-slate-400 dark:hover:border-white/30">
+                        Albums
+                    </button>
+<button class="shrink-0 rounded-full border border-slate-300 dark:border-white/10 bg-transparent px-4 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 transition-colors active:scale-95 hover:border-slate-400 dark:hover:border-white/30">
+                        Podcasts
+                    </button>
+<button class="shrink-0 rounded-full border border-primary/50 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary transition-colors active:scale-95">
+                        Downloaded
+                    </button>
+</div>
+</div>
+</header>
+<div class="flex items-center justify-between px-4 py-3">
+<button class="flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">sort</span>
+<span>Most Recent</span>
+</button>
+<button class="flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+</div>
+<main class="flex flex-col gap-2 px-4">
+<a href="playlist.html" class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="flex size-16 shrink-0 items-center justify-center rounded bg-gradient-to-br from-[#450af5] to-[#a5f3fc] shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-white text-[32px] fill-1">favorite</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<div class="flex items-center gap-2">
+<h3 class="line-clamp-1 text-base font-semibold text-slate-900 dark:text-white">Liked Songs</h3>
+<span class="material-symbols-outlined text-[14px] text-slate-400 dark:text-slate-500 fill-1">push_pin</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[16px] text-primary fill-1">push_pin</span>
+<p class="line-clamp-1">428 songs</p>
+</div>
+</div>
+</a>
+<div class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="relative size-16 shrink-0 overflow-hidden rounded bg-[#0e4e54] flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-primary text-[32px]">podcasts</span>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-semibold text-slate-900 dark:text-white">New Episodes</h3>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">notifications_active</span>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Updated today</p>
+</div>
+</div>
+</div>
+<a href="playlist.html" class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded shadow-sm">
+<img alt="Chill vibes playlist cover" class="h-full w-full object-cover" data-alt="Surfer looking at ocean waves sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-ysLN1IEIsk_f4CPL1oxi9GBrirDrGGt_MdlsZNuaqcAcQGz2Ml1D-NHR4Jmw1eGJ3X9BSSh7o0FuC_EwstTLgDpz4VT25vIPmY58Z4KknbjyA9ksBBoQanEnzlTS0JXbIPN2kbVZLpLHTMBKcLQYFFrJbCdzZ8pmRsm7oQ6NKqccbFbZlSjCU2Uz6R7tEyTLNZYwYjoFZHvC9hwI-MITP1bHNnderHeWODhPK3iIKqpY1L9ADNGP6SKvVk-GB3UGQ-wuFOyAObg"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">Chill Vibes</h3>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Playlist • Made for you</p>
+</div>
+</a>
+<a href="artist_profile.html" class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded-full shadow-sm">
+<img alt="The Weeknd artist photo" class="h-full w-full object-cover" data-alt="Moody portrait of a man in shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBscYoOo0gNS2gRSzIrmTEZPunI4-kaVoaWcGnueWLX0_TmxTe21gpTKR2OxqIy-bzKl7HVY_b8jBbUTEZc0gbmi7fcxNrtlaMbbhTALrD2NhGQWgNfruwQwlB9y2LC4uuDchdwTb1aMBMPBTa-SpaRz_zO7HUC4WshaV2PE7x29ErALizsUQjuIwmfm7ce16MrpncpSfOLHZikc7jvHzAq57gKlQN-EL-ZNyTdEimUA_AtrwYp7VLwKORUhkvM_kQHzW7s4mPW1gM"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">The Weeknd</h3>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Artist</p>
+</div>
+</a>
+<a href="playlist.html" class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded shadow-sm">
+<img alt="Gym motivation playlist cover" class="h-full w-full object-cover" data-alt="Dark gym interior with weights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB65grIAHSCYdlRRozp-m81j_zBPy65a-WmJ_w19MPNKPlnSoAjd6D6kmQKLiMOAVekIGb20GKm2bH-5HThJHfb-SXOxdoh2LLWYW6YKwx5uCHvigB4KsaIAxBP9estLMPh42fw3vkw3qAZ96tqIK3_PhF_QJ5YWPVxCASTJBFbHQaf6rasOY7WF_xEG3xCygrKiAMtH4o0xwk_oc8l2TJ5Yj6l6Jkx0e_7P-No1ScH41uDR2iD-VN8KHns0gZv81KndBlDEZ4ZLhg"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">Gym Motivation</h3>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary fill-1">download_for_offline</span>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Playlist • Spotify</p>
+</div>
+</div>
+</a>
+<div class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded shadow-sm">
+<img alt="Dark Side of the Moon album cover" class="h-full w-full object-cover" data-alt="Abstract prism rainbow refraction on black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUpXN7uoeJhjxj7BS2OOcro5NcsFVg92HaIgtz9k-VEkvfxh29ef5_fbXlsz6blVSvS0Cz9LoSnd0hZxvFhefqi0G7K9F4KaLSsIbdz3_C79afL1pcFuFXsTp8pkebEHcLR8aINjs2W4YSbGoJu7KoERH9mE9Mr8ffxAbRFcdFWufhXu5bknUIqhlJL2Et8D_51hcJsY6Mt6-nahWKT7ffNE3GxZgfOnhEmb3Sj6UzQNu23Mu_mp2GwH7fkHy9zuK1OJNNCQxBlDc"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">Dark Side of the Moon</h3>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary fill-1">download_for_offline</span>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Album • Pink Floyd</p>
+</div>
+</div>
+</div>
+<div class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded-xl shadow-sm">
+<img alt="Tech Talks Podcast Cover" class="h-full w-full object-cover" data-alt="Microphone on a desk with laptop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhxzntKw4tJJ5JtMknVkJ5aBGK9KIMlDKtll5RubwWrmY2DWioSsLRC-qff9cogQsjghK4uyaGNhGZywNHAwhl_YtWq-BimfgeGUBfYfJTb3Mrh-863DbamUHGth4TlLO_5ztkQzEtVK5xjLi713hrsoagPQqN1PBSQcWyivTErTAp44TiYy-6DcsRRHfmB5lbPqZ9WdhqWh7GMn-_myNQYSXVQnq0BLAxYxvdRdhiod2-x2O0QxdvPQZEOfoOtc5nZXlloRBQM60"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">Tech Talks Daily</h3>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Podcast • Tech Network</p>
+</div>
+<div class="shrink-0">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-500">add_circle</span>
+</div>
+</div>
+<a href="artist_profile.html" class="group flex cursor-pointer items-center gap-4 rounded-lg p-2 transition-colors hover:bg-black/5 dark:hover:bg-white/5">
+<div class="size-16 shrink-0 overflow-hidden rounded-full shadow-sm">
+<img alt="Daft Punk artist photo" class="h-full w-full object-cover" data-alt="DJ console with colorful lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiBz9XSyvklHOn0ZEzUAJsy5p4xIC-yjJ1Mij_BJrA5Z4XSbwQh9le8uyk1laeqPBK9InqoEyBkjWVD5QjLhtpVfftk9YYzvvqWZh3YmOVCv-o7AfGfKznYr-XyP8imMkqVU9n_i0mtp-SdX7a7ZJLj9QXyGGLD-vCOitL45wEM7bkQFfzR1hBjljmzHMuPtjm26RQV8Bq9u8WH07QpeIRRplkAjrjFbl-CUWtrPec76FDF588MI5m5Im24dTsvjKTT-0oOH8z6jo"/>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<h3 class="line-clamp-1 text-base font-medium text-slate-900 dark:text-white">Daft Punk</h3>
+<p class="line-clamp-1 text-sm text-slate-500 dark:text-slate-400">Artist</p>
+</div>
+</a>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex h-[88px] items-start justify-around border-t border-black/5 bg-background-light/95 pb-6 pt-3 backdrop-blur-xl dark:border-white/5 dark:bg-[#0b1517]/95">
+<a class="group flex flex-col items-center gap-1 opacity-60 transition-opacity hover:opacity-100" href="index.html">
+<span class="material-symbols-outlined text-[28px] text-slate-900 dark:text-white group-active:scale-95">home</span>
+<span class="text-[10px] font-medium text-slate-900 dark:text-white">Home</span>
+</a>
+<a class="group flex flex-col items-center gap-1 opacity-60 transition-opacity hover:opacity-100" href="#">
+<span class="material-symbols-outlined text-[28px] text-slate-900 dark:text-white group-active:scale-95">search</span>
+<span class="text-[10px] font-medium text-slate-900 dark:text-white">Search</span>
+</a>
+<a class="group flex flex-col items-center gap-1 opacity-100 transition-opacity" href="library.html">
+<span class="material-symbols-outlined text-[28px] text-slate-900 dark:text-white fill-1 group-active:scale-95">library_music</span>
+<span class="text-[10px] font-medium text-slate-900 dark:text-white">Library</span>
+</a>
+<a class="group flex flex-col items-center gap-1 opacity-60 transition-opacity hover:opacity-100" href="#">
+<div class="size-7 rounded-full bg-cyan-400 flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-black">play_arrow</span>
+</div>
+<span class="text-[10px] font-medium text-slate-900 dark:text-white">Premium</span>
+</a>
+</nav>
+<div class="pointer-events-none fixed inset-0 z-0 h-screen w-full bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-40"></div>
+</div>
+</body></html>

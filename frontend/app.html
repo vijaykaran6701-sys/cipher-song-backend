@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cipher Song – Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: #000;
+      color: white;
+      font-family: system-ui, sans-serif;
+      padding-bottom: 140px;
+    }
+  </style>
+</head>
+
+<body class="p-4">
+
+  <!-- Header -->
+  <h1 class="text-2xl font-bold mb-3">🎧 Cipher Song</h1>
+
+  <!-- Search -->
+  <input
+    id="searchInput"
+    type="text"
+    placeholder="Search song or artist..."
+    class="w-full mb-4 p-2 rounded-lg bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-green-500"
+  />
+
+  <!-- Song List -->
+  <div id="songList" class="space-y-3"></div>
+
+  <!-- MINI PLAYER -->
+  <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-3">
+
+    <div class="flex items-center gap-3">
+
+      <!-- Cover -->
+      <img
+        id="playerCover"
+        class="w-14 h-14 rounded-lg object-cover bg-zinc-800"
+        src=""
+        alt="cover"
+      />
+
+      <!-- Info -->
+      <div class="flex-1 overflow-hidden">
+        <h3 id="playerTitle" class="font-bold truncate">Select a song</h3>
+        <p id="playerArtist" class="text-xs text-zinc-400 truncate">—</p>
+      </div>
+
+      <!-- Controls -->
+      <button
+        id="prevBtn"
+        class="w-10 h-10 rounded-full bg-zinc-800 text-white text-lg"
+      >⏮</button>
+
+      <button
+        id="playBtn"
+        class="w-12 h-12 rounded-full bg-green-500 text-black text-lg font-bold"
+      >▶</button>
+
+      <button
+        id="nextBtn"
+        class="w-10 h-10 rounded-full bg-zinc-800 text-white text-lg"
+      >⏭</button>
+
+    </div>
+
+    <!-- Progress -->
+    <input
+      id="progress"
+      type="range"
+      value="0"
+      class="w-full mt-2 accent-green-500"
+    />
+
+    <audio id="audio"></audio>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const songListEl = document.getElementById("songList");
+    const audio = document.getElementById("audio");
+
+    const cover = document.getElementById("playerCover");
+    const title = document.getElementById("playerTitle");
+    const artist = document.getElementById("playerArtist");
+
+    const playBtn = document.getElementById("playBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const progress = document.getElementById("progress");
+    const searchInput = document.getElementById("searchInput");
+
+    let allSongs = [];
+    let currentSong = null;
+    let currentIndex = -1;
+    let isPlaying = false;
+
+    async function loadSongs() {
+      const res = await fetch("http://localhost:7000/api/songs");
+      allSongs = await res.json();
+      renderSongs(allSongs);
+    }
+
+    function renderSongs(songs) {
+      songListEl.innerHTML = "";
+
+      if (!songs.length) {
+        songListEl.innerHTML =
+          `<p class="text-zinc-400">No matching songs</p>`;
+        return;
+      }
+
+      songs.forEach(song => {
+        const row = document.createElement("div");
+        row.className =
+          "flex items-center gap-3 bg-zinc-900 p-2 rounded-lg cursor-pointer hover:bg-zinc-800";
+
+        row.innerHTML = `
+          <img src="http://localhost:7000/${song.cover}"
+               class="w-12 h-12 rounded object-cover" />
+          <div class="flex-1">
+            <p class="font-semibold">${song.title}</p>
+            <p class="text-xs text-zinc-400">
+              ${song.artist?.name || "Unknown Artist"}
+            </p>
+          </div>
+        `;
+
+        row.onclick = () => playSong(song);
+        songListEl.appendChild(row);
+      });
+    }
+
+    function playSong(song) {
+      currentSong = song;
+      currentIndex = allSongs.findIndex(s => s._id === song._id);
+
+      cover.src = `http://localhost:7000/${song.cover}`;
+      title.innerText = song.title;
+      artist.innerText = song.artist?.name || "Unknown Artist";
+
+      audio.src = `http://localhost:7000/${song.audio}`;
+      audio.play();
+
+      isPlaying = true;
+      playBtn.innerText = "⏸";
+    }
+
+    playBtn.onclick = () => {
+      if (!currentSong) return;
+
+      if (isPlaying) {
+        audio.pause();
+        playBtn.innerText = "▶";
+      } else {
+        audio.play();
+        playBtn.innerText = "⏸";
+      }
+
+      isPlaying = !isPlaying;
+    };
+
+    nextBtn.onclick = () => {
+      if (currentIndex < allSongs.length - 1) {
+        playSong(allSongs[currentIndex + 1]);
+      }
+    };
+
+    prevBtn.onclick = () => {
+      if (currentIndex > 0) {
+        playSong(allSongs[currentIndex - 1]);
+      }
+    };
+
+    audio.ontimeupdate = () => {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+    };
+
+    progress.oninput = () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    };
+
+    // Search
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.toLowerCase();
+
+      const filtered = allSongs.filter(song =>
+        song.title.toLowerCase().includes(q) ||
+        song.artist?.name?.toLowerCase().includes(q)
+      );
+
+      renderSongs(filtered);
+    });
+
+    loadSongs();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Playlist Details</title>
+<!-- Google Fonts: Spline Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2bee79",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102217",
+                        "surface-dark": "#1a2e22", // Slightly lighter for cards/bars
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom gradient for top fade */
+        .bg-gradient-fade {
+            background: linear-gradient(180deg, rgba(16,34,23,0.8) 0%, rgba(16,34,23,1) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-background-dark overflow-hidden">
+<!-- Main Container -->
+<div class="relative flex flex-col h-screen w-full max-w-md mx-auto bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden rounded-[0px] md:rounded-[30px] border-x border-white/5">
+<!-- Header Image Background Blur Effect -->
+<div class="absolute top-0 left-0 w-full h-[400px] z-0 opacity-40 pointer-events-none">
+<div class="w-full h-full bg-cover bg-center blur-3xl saturate-150" data-alt="Blurred abstract gradient background matching the playlist vibe" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0w3T-8bZN8Jf5nM52xtCpGaLAEutrg1Qu3nHUvjxvvBTfqt1XYl8jwIr9AXAFpywoO1LyDwlD1jvsCqx4j5x_a5dP5W1mtJXE2td9Y0Hi8Gk9sTFW-IQf8DLivTIyypWY9NlgmDUav4WBai5_E5CnBwzv8OxdubVkThhO2npEzcJzRlCHJZ8unRJSvmSvGHPMqg2ZHFNWWEPKKotKI2PVeoOnLlVQB9IW7U2zvVQK4iraHpUnZfDJrpofUW1ScEnzOPqBOAFhdJI');"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background-dark/80 to-background-dark"></div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto hide-scrollbar relative z-10 pb-36">
+<!-- Top Navigation -->
+<div class="sticky top-0 z-50 flex items-center justify-between p-4 bg-background-dark/0 backdrop-blur-sm transition-all duration-300">
+<a href="index.html" class="flex items-center justify-center size-10 rounded-full bg-black/20 hover:bg-white/10 text-white backdrop-blur-md transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back_ios_new</span>
+</a>
+<a href="index.html" class="flex items-center gap-2">
+<img src="images/cipher_logo.png" alt="Cipher Song Logo" class="h-7 w-7 object-contain"/>
+<span class="text-sm font-bold tracking-tight text-white">cipher song</span>
+</a>
+<button class="flex items-center justify-center size-10 rounded-full bg-black/20 hover:bg-white/10 text-white backdrop-blur-md transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">more_horiz</span>
+</button>
+</div>
+<!-- Profile / Playlist Header -->
+<div class="flex flex-col items-center px-6 pt-4 pb-6">
+<!-- Album Art -->
+<div class="relative group cursor-pointer mb-6">
+<div class="w-64 h-64 md:w-72 md:h-72 bg-center bg-cover rounded-xl shadow-[0_20px_50px_-12px_rgba(43,238,121,0.3)] transition-transform duration-500 ease-out group-hover:scale-[1.02]" data-alt="Abstract 3D rendering of dark geometric shapes with neon green lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKXCtM_F0z9_cYTTLvPv4-RuyYeLwPEiBE4Blw3Vrr0UYnhymSVtUoO1WN3y0TMoVyM-LpjFkf2cTy9UgD4RHCsRnc3rO4Cha5j24bkweoGR_x_vR31Y4gNPvVNu11cC8Qwky9Qgmnl6N4uNfxNvscXl3cduobcmST_GuTTHZpvBHM0DtzfbYKlP1UNP5siF8IrCsiIYNl36AnIv2N8pOeDUcqW5JX1LsAoZCp8XQfTPpvwcfsnzCMcUa93Zid1KZo8oDcs_Zwu0I');">
+</div>
+</div>
+<!-- Text Info -->
+<div class="flex flex-col items-center justify-center text-center space-y-1">
+<h1 class="text-3xl font-bold leading-tight tracking-tight text-white">Late Night Lo-Fi</h1>
+<div class="flex items-center gap-2 text-[#92c9a8] text-sm font-medium mt-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-[16px]">person</span>
+                            User
+                        </span>
+<span class="size-1 bg-[#92c9a8] rounded-full"></span>
+<span>2h 15m</span>
+<span class="size-1 bg-[#92c9a8] rounded-full"></span>
+<span>2023</span>
+</div>
+<p class="text-white/60 text-xs mt-2 max-w-[80%] line-clamp-2">Chill beats to study, relax, and code to. Updated weekly with fresh vibes.</p>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="flex flex-col items-center gap-6 px-4 mb-6">
+<!-- Main Play Button Row -->
+<div class="flex items-center w-full max-w-[300px] gap-4">
+<button class="size-12 rounded-full flex items-center justify-center text-[#92c9a8] hover:text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[28px]">shuffle</span>
+</button>
+<button class="flex-1 h-14 bg-primary text-background-dark rounded-full flex items-center justify-center gap-2 font-bold text-lg hover:scale-105 active:scale-95 transition-transform shadow-[0_0_20px_rgba(43,238,121,0.4)]">
+<span class="material-symbols-outlined filled text-[32px]">play_arrow</span>
+<span>Play</span>
+</button>
+<button class="size-12 rounded-full flex items-center justify-center text-[#92c9a8] hover:text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[28px]">download_for_offline</span>
+</button>
+</div>
+<!-- Secondary Actions -->
+<div class="flex items-center gap-8 text-[#92c9a8]">
+<button class="flex flex-col items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">favorite</span>
+<span class="text-[10px] font-medium tracking-wide uppercase">Save</span>
+</button>
+<button class="flex flex-col items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">ios_share</span>
+<span class="text-[10px] font-medium tracking-wide uppercase">Share</span>
+</button>
+<button class="flex flex-col items-center gap-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">library_add</span>
+<span class="text-[10px] font-medium tracking-wide uppercase">Add</span>
+</button>
+</div>
+</div>
+<!-- Track List -->
+<div class="flex flex-col gap-1 px-2">
+<!-- Active Track -->
+<a href="playing.html" class="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer bg-white/5 border border-white/5">
+<div class="w-8 flex justify-center shrink-0">
+<div class="flex items-end gap-[2px] h-4">
+<div class="w-1 bg-primary h-2 animate-[pulse_1s_ease-in-out_infinite]"></div>
+<div class="w-1 bg-primary h-4 animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+<div class="w-1 bg-primary h-3 animate-[pulse_0.8s_ease-in-out_infinite]"></div>
+</div>
+</div>
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0 shadow-sm" data-alt="Album art for Midnight City featuring a neon cityscape" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7K-fHDdkE2LDKPHtWmN-CvVXCz8JlRSa9QTVkZ3gQb507kDdyzzfPwq4hhPgVU7P3871cjJAbu2iW_NuXdaxiRw88nsn6h7mrMiGPBO24dRyOGuh8ZCRVlPqESe1XnqXx2UJV48SBVqZe_XH-KUAxQ9z2IBFZ3XxQZKM_mOOFFtDX--1XtXGF_xX5YoWplqF-9e460eAvq0NtakpGiGYzJZGubPg38OZict92XZ8Io0-VzZRTuv7IcLCDeby_8YOS10NjmTfx5gk');"></div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-primary text-base font-bold truncate">Midnight City</p>
+<a href="artist_profile.html" class="text-white/60 text-sm truncate hover:text-primary transition-colors">M83</a>
+</div>
+<div class="flex items-center gap-3 pr-2">
+<span class="text-xs text-white/40">4:03</span>
+<button class="text-white/40 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</a>
+<!-- Track 2 -->
+<a href="playing.html" class="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<span class="w-8 text-center text-white/40 font-mono text-sm shrink-0 group-hover:hidden">2</span>
+<span class="w-8 text-center text-white hidden shrink-0 group-hover:block"><span class="material-symbols-outlined text-sm">play_arrow</span></span>
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0 opacity-80" data-alt="Album art for Resonance featuring a sunset gradient" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZWWJ3BRzxgsyDkYYBLggwywg5lqSXAGYgkYEhxxw2sRCls3l6OeUHaD9PaGCwnibtLX_ImVtyrwL4-XPxHzFJsw1Ou2q5qxcS7IMBiIMURDodp640hcd3vH-WYBaL1IJjgcmFLUe4BL9PxzBjx3GdudsEZ2NH7qu-7GO4GdAxwkg9b76cn9oQU5xBav7E5x_4TJ3D-x1aYWfO3LgiC7uJ3XFH7sNYz-9cCVQsyu4kqEsln5SiAgG74jEVgxFbxyS-e_zP8WMdu1I');"></div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-white text-base font-medium truncate group-hover:text-primary transition-colors">Resonance</p>
+<p class="text-[#92c9a8] text-sm truncate">Home</p>
+</div>
+<div class="flex items-center gap-3 pr-2">
+<span class="text-xs text-white/40">3:32</span>
+<button class="text-white/40 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</a>
+<!-- Track 3 -->
+<a href="playing.html" class="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<span class="w-8 text-center text-white/40 font-mono text-sm shrink-0 group-hover:hidden">3</span>
+<span class="w-8 text-center text-white hidden shrink-0 group-hover:block"><span class="material-symbols-outlined text-sm">play_arrow</span></span>
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0 opacity-80" data-alt="Album art for Space Song showing a starry night" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1jhWHrmmLyb-KSEiFdemuCRxh-R8PcHczsXvWqA-oNtIFi5-JG7mtV2rn0kbgmE_bv8L_KdG-Lpwa9oSgSs1t8k8QO2Z137hQ0tZWsC7arlXAEVUUotKLkL430Uq5r2DqXw88ZguuLYjPx3JjgcrzQECw_UDXZdNWlbxh85d595uW7iYfEs3ZpL2zhbCR5hB8fveiDwdvi4Udnpu7ZFrbcWCrLFanMhJf2oM_RZqH9raKVL5EGxPwhDr1RFDTCRAQcxwQ_5U7aDw');"></div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-white text-base font-medium truncate group-hover:text-primary transition-colors">Space Song</p>
+<p class="text-[#92c9a8] text-sm truncate">Beach House</p>
+</div>
+<div class="flex items-center gap-3 pr-2">
+<span class="text-xs text-white/40">5:21</span>
+<button class="text-white/40 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</a>
+<!-- Track 4 -->
+<a href="playing.html" class="group flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+<span class="w-8 text-center text-white/40 font-mono text-sm shrink-0 group-hover:hidden">4</span>
+<span class="w-8 text-center text-white hidden shrink-0 group-hover:block"><span class="material-symbols-outlined text-sm">play_arrow</span></span>
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0 opacity-80" data-alt="Album art for After Dark showing a dark silhouette" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1LQFx8x2HoZ4kMkIQqbcT-btjpMnwgXN_W8xpuq_2Br1cXMq-solYxXtkGtSQcZJlNGGQn7i7kTByp2NyWvu5dQQmVDFtWh8Y5i9HPZ75jeLrWELVmYyWb7uXZtrUT6oQGXJyKH8Gcu-PBjZw3t1DEKzk52WL4bobzFl0lIqUfNYf3nide4OVtR0csGtwTUk7zBolVGpCFk5Z8_ZPLWouWjshhij28v7qYYbUv2o_gbfy0OUvMqmSMojr7ThhJvNQCYfFcMt1WnA');"></div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-white text-base font-medium truncate group-hover:text-primary transition-colors">After Dark</p>
+<p class="text-[#92c9a8] text-sm truncate">Mr. Kitty</p>
+</div>
+<div class="flex items-center gap-3 pr-2">
+<span class="text-xs text-white/40">4:17</span>
+<button class="text-white/40 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</a>
+<!-- Track 5 -->
+<a href="playing.html" class="group flex items-center gap-3 p-2 rounded-xl hover:bg:white/5 transition-colors cursor-pointer">
+<span class="w-8 text-center text-white/40 font-mono text-sm shrink-0 group-hover:hidden">5</span>
+<span class="w-8 text-center text-white hidden shrink-0 group-hover:block"><span class="material-symbols-outlined text-sm">play_arrow</span></span>
+<div class="size-12 rounded-lg bg-cover bg-center shrink-0 opacity-80" data-alt="Album art for SimpsonWave showing purple clouds" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPNgid73ESJXctKQmYG9ISs7A1rCppsMqFB1nzdjrwa6MyLyfr93XGTxwAtkAhHXKpeXCyhHiSXfkIzLzXEHAU9GO_GaWsPJgeXKZZzTxYKg588wjLjYLE9cPWAORgPxs07BfCSj2oXT-f4sJA6Jeisu7-gs3dcX6iAobx8UwJHYfqM3qYtie0q0nRCVjJqq_kcP1lGeHZDP9g4YmNPsXMAP-6xvrnVLfYU4EcgNVnTkE8U9XNDJSQywQJzBzfvER7kzwIiJsKqic');"></div>
+<div class="flex flex-col flex-1 min-w-0">
+<p class="text-white text-base font-medium truncate group-hover:text-primary transition-colors">SimpsonWave 1995</p>
+<p class="text-[#92c9a8] text-sm truncate">FrankJavCee</p>
+</div>
+<div class="flex items-center gap-3 pr-2">
+<span class="text-xs text-white/40">2:45</span>
+<button class="text-white/40 hover:text-white">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</a>
+</div>
+<!-- Space for bottom elements -->
+<div class="h-24"></div>
+</div>
+<!-- Sticky Bottom Section (Mini Player + Tab Bar) -->
+<div class="absolute bottom-0 left-0 w-full z-20">
+<!-- Mini Player -->
+<a href="playing.html" class="mx-2 mb-2 bg-surface-dark/95 backdrop-blur-xl rounded-2xl p-2 border border-white/5 shadow-2xl relative overflow-hidden group cursor-pointer block">
+<!-- Progress Line -->
+<div class="absolute top-0 left-0 h-[2px] bg-white/10 w-full">
+<div class="h-full bg-primary w-1/3"></div>
+</div>
+<div class="flex items-center gap-3 pt-1">
+<div class="size-10 rounded-lg bg-cover bg-center shrink-0" data-alt="Mini player album art thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_odvfhijRXaab7HQmJ2ro-n0sERjFv8XW9UuE-RwE1RjXjel6zewtiMQH01YL1JHivc-HoGYBCZDp_7YOmifKln3ebhk6vJ0bxEuACm1t77HA4_vZ3I3TRJLaXyXLty9oSAjOaia2C0NEg9IbjuO0P4favYVvvlgFLdHS44-sMn-dJKMezIRi4aLw_HzWEVWm0KNcn8RwUVXnnz666BTbZRxqg33UU_G6SztDsOeOFtwGulul8u_xV3MVPj4fZvnzDjNKOu_wWR0');"></div>
+<div class="flex flex-col flex-1 overflow-hidden">
+<div class="flex items-center gap-2">
+<p class="text-white text-sm font-bold truncate">Midnight City</p>
+<span class="text-[10px] px-1 rounded bg-white/10 text-white/60">LYRICS</span>
+</div>
+<p class="text-primary text-xs truncate"><a href="artist_profile.html" class="hover:text-white transition-colors">M83</a> • Late Night Lo-Fi</p>
+</div>
+<div class="flex items-center gap-1 pr-2">
+<button class="size-8 flex items-center justify-center text-white hover:text-primary">
+<span class="material-symbols-outlined text-[28px]">favorite</span>
+</button>
+<button class="size-10 flex items-center justify-center text-white hover:scale-110 transition-transform">
+<span class="material-symbols-outlined filled text-[32px]">pause</span>
+</button>
+</div>
+</div>
+</a>
+<!-- Tab Bar -->
+<div class="bg-background-dark/95 backdrop-blur-lg border-t border-white/5 pb-6 pt-2 px-6 flex justify-between items-center text-xs font-medium text:white/50">
+<a href="index.html" class="flex flex-col items-center gap-1 hover:text-white transition-colors w-16 group">
+<span class="material-symbols-outlined text-[26px] group-hover:-translate-y-1 transition-transform">home</span>
+<span>Home</span>
+</a>
+<a href="#" class="flex flex-col items-center gap-1 hover:text-white transition-colors w-16 group">
+<span class="material-symbols-outlined text-[26px] group-hover:-translate-y-1 transition-transform">search</span>
+<span>Search</span>
+</a>
+<a href="library.html" class="flex flex-col items-center gap-1 text-white w-16 group">
+<span class="material-symbols-outlined filled text-[26px] group-hover:-translate-y-1 transition-transform">library_music</span>
+<span>Library</span>
+</a>
+</div>
+</div>
+</div>
+</body></html>

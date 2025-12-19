@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cipher Song • Music Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #0a0a0a, #000);
+      color: white;
+      font-family: system-ui, sans-serif;
+      padding-bottom: 130px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-zinc-800">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold">🎧 Cipher Song</h1>
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search songs or artists..."
+        class="w-72 max-w-full p-2 rounded-lg bg-zinc-900 border border-zinc-800 focus:outline-none focus:border-green-500"
+      />
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <h2 class="text-lg font-semibold mb-4 text-zinc-300">
+      All Songs
+    </h2>
+
+    <div
+      id="songList"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5"
+    ></div>
+  </main>
+
+  <!-- MINI PLAYER -->
+  <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-3">
+    <div class="max-w-6xl mx-auto flex items-center gap-4">
+
+      <img
+        id="playerCover"
+        class="w-14 h-14 rounded-lg object-cover bg-zinc-800"
+        src=""
+        alt="cover"
+      />
+
+      <div class="flex-1 overflow-hidden">
+        <p id="playerTitle" class="font-semibold truncate">Select a song</p>
+        <p id="playerArtist" class="text-xs text-zinc-400 truncate">—</p>
+      </div>
+
+      <button
+        id="playBtn"
+        class="w-12 h-12 rounded-full bg-green-500 text-black text-lg font-bold"
+      >
+        ▶
+      </button>
+    </div>
+
+    <input
+      id="progress"
+      type="range"
+      value="0"
+      class="w-full mt-2 accent-green-500"
+    />
+
+    <audio id="audio"></audio>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const songListEl = document.getElementById("songList");
+    const searchInput = document.getElementById("searchInput");
+
+    const cover = document.getElementById("playerCover");
+    const title = document.getElementById("playerTitle");
+    const artist = document.getElementById("playerArtist");
+    const playBtn = document.getElementById("playBtn");
+    const progress = document.getElementById("progress");
+    const audio = document.getElementById("audio");
+
+    let allSongs = [];
+    let currentSong = null;
+    let currentIndex = -1;
+    let isPlaying = false;
+
+    // 🔹 LOAD SONGS
+    async function loadSongs() {
+      try {
+        const res = await fetch("http://localhost:7000/api/songs");
+        allSongs = await res.json();
+        renderSongs(allSongs);
+      } catch (e) {
+        alert("Songs load failed");
+        console.error(e);
+      }
+    }
+
+    // 🔹 RENDER GRID
+    function renderSongs(songs) {
+      songListEl.innerHTML = "";
+
+      songs.forEach(song => {
+        const card = document.createElement("div");
+        card.className =
+          "group bg-zinc-900 rounded-xl p-3 cursor-pointer hover:bg-zinc-800 transition";
+
+        card.innerHTML = `
+          <div class="relative">
+            <img
+              src="http://localhost:7000/${song.cover}"
+              class="w-full aspect-square object-cover rounded-lg mb-3"
+            />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition rounded-lg">
+              <span class="w-12 h-12 bg-green-500 text-black rounded-full flex items-center justify-center text-xl">
+                ▶
+              </span>
+            </div>
+          </div>
+
+          <h3 class="font-semibold truncate">${song.title}</h3>
+          <p class="text-sm text-zinc-400 truncate">
+            ${song.artist?.name || "Unknown Artist"}
+          </p>
+        `;
+
+        card.addEventListener("click", () => {
+          playSong(song);
+        });
+
+        songListEl.appendChild(card);
+      });
+    }
+
+    // 🔹 PLAY SONG (IMPORTANT FIX)
+    function playSong(song) {
+      currentSong = song;
+      currentIndex = allSongs.findIndex(s => s._id === song._id);
+
+      cover.src = `http://localhost:7000/${song.cover}`;
+      title.textContent = song.title;
+      artist.textContent = song.artist?.name || "Unknown Artist";
+
+      audio.src = `http://localhost:7000/${song.audio}`;
+      audio.load();          // 🔥 IMPORTANT
+      audio.play();
+
+      isPlaying = true;
+      playBtn.textContent = "⏸";
+    }
+
+    // 🔹 PLAY / PAUSE
+    playBtn.addEventListener("click", () => {
+      if (!currentSong) return;
+
+      if (isPlaying) {
+        audio.pause();
+        playBtn.textContent = "▶";
+      } else {
+        audio.play();
+        playBtn.textContent = "⏸";
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 🔹 PROGRESS
+    audio.addEventListener("timeupdate", () => {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+    });
+
+    progress.addEventListener("input", () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    // 🔹 AUTO NEXT
+    audio.addEventListener("ended", () => {
+      if (currentIndex < allSongs.length - 1) {
+        playSong(allSongs[currentIndex + 1]);
+      }
+    });
+
+    // 🔹 SEARCH
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.toLowerCase();
+      const filtered = allSongs.filter(song =>
+        song.title.toLowerCase().includes(q) ||
+        song.artist?.name?.toLowerCase().includes(q)
+      );
+      renderSongs(filtered);
+    });
+
+    loadSongs();
+  </script>
+
+</body>
+</html>

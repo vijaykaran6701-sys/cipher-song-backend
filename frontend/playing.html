@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Now Playing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Player -->
+  <div class="w-[340px] bg-white/5 backdrop-blur-xl rounded-3xl p-5 shadow-2xl border border-white/10">
+
+    <!-- Cover -->
+    <img
+      id="cover"
+      class="w-full h-72 object-cover rounded-2xl mb-4 shadow-lg transition hover:scale-[1.02]"
+      src=""
+      alt="cover"
+    />
+
+    <!-- Info -->
+    <h2 id="title" class="text-xl font-bold truncate">Loading...</h2>
+    <p id="artist" class="text-sm text-zinc-400 mb-4">Please wait</p>
+
+    <!-- Controls -->
+    <div class="flex items-center gap-3">
+      <button
+        id="playBtn"
+        class="w-14 h-14 rounded-full bg-green-500 text-black text-xl font-bold flex items-center justify-center hover:scale-105 transition"
+      >
+        ▶
+      </button>
+
+      <input
+        id="progress"
+        type="range"
+        value="0"
+        class="flex-1 accent-green-500"
+      />
+    </div>
+
+    <audio id="audio"></audio>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("playBtn");
+    const progress = document.getElementById("progress");
+
+    async function loadSong() {
+      const res = await fetch("http://localhost:7000/api/songs");
+      const songs = await res.json();
+      const song = songs[0];
+
+      document.getElementById("title").innerText = song.title;
+      document.getElementById("artist").innerText =
+        song.artist?.name || "Unknown Artist";
+
+      document.getElementById("cover").src =
+        `http://localhost:7000/${song.cover}`;
+
+      audio.src = `http://localhost:7000/${song.audio}`;
+    }
+
+    playBtn.onclick = () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.innerText = "⏸";
+      } else {
+        audio.pause();
+        playBtn.innerText = "▶";
+      }
+    };
+
+    audio.ontimeupdate = () => {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+    };
+
+    progress.oninput = () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    };
+
+    loadSong();
+    fetch(`http://localhost:7000/api/songs/${song._id}/play`, {
+  method: "PUT"
+});
+
+  </script>
+
+</body>
+</html>
