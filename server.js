@@ -24,8 +24,6 @@ app.use("/frontend", express.static(path.join(__dirname, "frontend")));
 ====================== */
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/songs", require("./routes/songs"));
-
-// ❌ artists route tabhi add karo jab file exist kare
 // app.use("/api/artists", require("./routes/artists"));
 
 /* ======================
@@ -49,5 +47,5 @@ mongoose
     });
   })
   .catch((err) => {
-    console.error("❌ MongoDB error:", err.message);
+    console.error("❌ MongoDB Connection Error:", err.message);
   });
