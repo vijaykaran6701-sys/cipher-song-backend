@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 /* ======================
    DATABASE + SERVER
 ====================== */
-const PORT = process.env.PORT || 7000;
+const PORT = 7000; // using port 7000 everywhere as requested
 
 mongoose
   .connect(process.env.MONGO_URI)
