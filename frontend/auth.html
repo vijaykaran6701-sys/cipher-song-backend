@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auth • Cipher Song</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white min-h-screen flex items-center justify-center">
+
+  <div class="w-full max-w-md bg-zinc-900 p-6 rounded-xl">
+
+    <h2 id="formTitle" class="text-xl font-bold mb-4 text-center">
+      🔐 Login
+    </h2>
+
+    <!-- NAME (Signup only) -->
+    <input
+      id="name"
+      type="text"
+      placeholder="Full Name"
+      class="w-full p-2 mb-3 rounded bg-zinc-800 hidden"
+    />
+
+    <!-- EMAIL -->
+    <input
+      id="email"
+      type="email"
+      placeholder="Email"
+      class="w-full p-2 mb-3 rounded bg-zinc-800"
+    />
+
+    <!-- PASSWORD -->
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      class="w-full p-2 mb-4 rounded bg-zinc-800"
+    />
+
+    <!-- ACTION BUTTON -->
+    <button
+      id="actionBtn"
+      onclick="login()"
+      class="w-full bg-green-500 text-black font-bold py-2 rounded"
+    >
+      Login
+    </button>
+
+    <!-- OUTPUT -->
+    <pre id="output" class="mt-3 text-xs text-zinc-400"></pre>
+
+    <!-- TOGGLE -->
+    <p class="text-sm text-center mt-4 text-zinc-400">
+      <span id="toggleText">Don't have an account?</span>
+      <button
+        onclick="toggleForm()"
+        class="text-green-400 hover:underline ml-1"
+      >
+        Sign up
+      </button>
+    </p>
+
+  </div>
+
+  <!-- JS -->
+  <script src="./js/auth-combined.js"></script>
+
+</body>
+</html>

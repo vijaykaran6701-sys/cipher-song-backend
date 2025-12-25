@@ -14,6 +14,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* ======================
+   FORCE LOAD MODELS 🔥
+====================== */
+require("./models/User");
+require("./models/Artist");
+require("./models/Song");
+
+/* ======================
    STATIC FILES
 ====================== */
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -24,7 +31,7 @@ app.use("/frontend", express.static(path.join(__dirname, "frontend")));
 ====================== */
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/songs", require("./routes/songs"));
-// app.use("/api/artists", require("./routes/artists"));
+app.use("/api/artists", require("./routes/artists")); // optional but recommended
 
 /* ======================
    TEST ROUTE
@@ -36,7 +43,7 @@ app.get("/", (req, res) => {
 /* ======================
    DATABASE + SERVER
 ====================== */
-const PORT = 7000; // using port 7000 everywhere as requested
+const PORT = 7000; // using port 7000 everywhere
 
 mongoose
   .connect(process.env.MONGO_URI)
