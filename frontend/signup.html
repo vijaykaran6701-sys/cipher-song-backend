@@ -11,7 +11,26 @@
 
 <body class="bg-black text-white min-h-screen flex items-center justify-center">
 
-  <div class="w-full max-w-md bg-zinc-900 p-6 rounded-xl">
+  <!-- Global Nav -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md text-white">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-3">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="images/cipher_logo.png" alt="Cipher Song Logo" class="h-6 w-6 object-contain"/>
+        <span class="font-semibold">Cipher Song</span>
+      </a>
+      <nav class="flex gap-3 text-sm">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="library.html" class="hover:underline">Library</a>
+        <a href="playlist.html" class="hover:underline">Playlists</a>
+        <a href="artist.html" class="hover:underline">Artists</a>
+        <a href="upload.html" class="hover:underline">Upload</a>
+        <a href="auth.html" class="hover:underline">Login</a>
+        <a href="signup.html" class="hover:underline">Signup</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="w-full max-w-md bg-zinc-900 p-6 rounded-xl mt-16">
     <h2 class="text-xl font-bold mb-4">📝 Create Account</h2>
 
     <!-- NAME -->
