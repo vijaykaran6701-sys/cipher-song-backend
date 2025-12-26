@@ -1,71 +1,56 @@
+import { setupPlayer } from "./player.js";
+
 /* ============================
-   🔐 LOGIN PROTECTION
+   🔐 LOGIN
 ============================ */
 if (!localStorage.getItem("token")) {
   window.location.href = "auth.html";
 }
 
-/* ============================
-   🌐 API BASE
-============================ */
 const API = "https://cipher-song-2.onrender.com";
 
-/* ============================
-   🎧 DOM ELEMENTS
-============================ */
+/* DOM */
 const songListEl = document.getElementById("songList");
 const searchInput = document.getElementById("searchInput");
 
-const coverEl = document.getElementById("playerCover");
-const titleEl = document.getElementById("playerTitle");
-const artistEl = document.getElementById("playerArtist");
-const playBtn = document.getElementById("playBtn");
-const progress = document.getElementById("progress");
-const audio = document.getElementById("audio");
+/* PLAYER SETUP */
+const player = setupPlayer({
+  cover: document.getElementById("playerCover"),
+  title: document.getElementById("playerTitle"),
+  artist: document.getElementById("playerArtist"),
+  playBtn: document.getElementById("playBtn"),
+  progress: document.getElementById("progress"),
+  audio: document.getElementById("audio"),
+});
 
-/* ============================
-   📦 STATE
-============================ */
 let allSongs = [];
-let currentSong = null;
-let currentIndex = -1;
-let isPlaying = false;
 
-/* ============================
-   🚪 LOGOUT
-============================ */
-window.logout = function () {
+/* LOGOUT */
+window.logout = () => {
   localStorage.removeItem("token");
   window.location.href = "auth.html";
 };
 
-/* ============================
-   🎵 LOAD SONGS
-============================ */
+/* LOAD SONGS */
 async function loadSongs() {
   try {
     const res = await fetch(`${API}/api/songs`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     });
 
-    if (res.status === 401) {
-      logout();
-      return;
-    }
+    if (res.status === 401) return logout();
 
     allSongs = await res.json();
+    player.setSongs(allSongs);
+
     renderSongs(allSongs);
   } catch (err) {
-    alert("Failed to load songs");
     console.error(err);
+    alert("Failed to load songs");
   }
 }
 
-/* ============================
-   🧩 RENDER SONG GRID
-============================ */
+/* RENDER SONGS */
 function renderSongs(songs) {
   songListEl.innerHTML = "";
 
@@ -80,6 +65,7 @@ function renderSongs(songs) {
           src="${API}/${song.cover}"
           class="w-full aspect-square object-cover rounded-lg mb-3"
         />
+
         <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition rounded-lg">
           <span class="w-12 h-12 bg-green-500 text-black rounded-full flex items-center justify-center text-xl">
             ▶
@@ -93,88 +79,25 @@ function renderSongs(songs) {
       </p>
     `;
 
-    card.onclick = () => playSong(song);
+    card.onclick = () => player.playSong(song);
     songListEl.appendChild(card);
   });
 }
 
-/* ============================
-   ▶️ PLAY SONG
-============================ */
-function playSong(song) {
-  currentSong = song;
-  currentIndex = allSongs.findIndex((s) => s._id === song._id);
+/* SEARCH */
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase();
 
-  coverEl.src = `${API_BASE}/${song.cover}`;
-  titleEl.textContent = song.title;
-  artistEl.textContent = song.artist?.name || "Unknown Artist";
+    const filtered = allSongs.filter(
+      s =>
+        s.title.toLowerCase().includes(q) ||
+        s.artist?.name?.toLowerCase().includes(q)
+    );
 
-  audio.src = `${API_BASE}/${song.audio}`;
-  audio.load();
-  audio.play();
-
-  isPlaying = true;
-  playBtn.textContent = "⏸";
+    renderSongs(filtered);
+  });
 }
 
-/* ============================
-   ⏯ PLAY / PAUSE
-============================ */
-playBtn.addEventListener("click", () => {
-  if (!currentSong) return;
-
-  if (isPlaying) {
-    audio.pause();
-    playBtn.textContent = "▶";
-  } else {
-    audio.play();
-    playBtn.textContent = "⏸";
-  }
-
-  isPlaying = !isPlaying;
-});
-
-/* ============================
-   📊 PROGRESS BAR
-============================ */
-audio.addEventListener("timeupdate", () => {
-  if (!audio.duration) return;
-  progress.value = (audio.currentTime / audio.duration) * 100;
-});
-
-progress.addEventListener("input", () => {
-  if (!audio.duration) return;
-  audio.currentTime = (progress.value / 100) * audio.duration;
-});
-
-/* ============================
-   ⏭ AUTO NEXT SONG
-============================ */
-audio.addEventListener("ended", () => {
-  if (currentIndex < allSongs.length - 1) {
-    playSong(allSongs[currentIndex + 1]);
-  } else {
-    playBtn.textContent = "▶";
-    isPlaying = false;
-  }
-});
-
-/* ============================
-   🔍 SEARCH
-============================ */
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.toLowerCase();
-
-  const filtered = allSongs.filter(
-    (song) =>
-      song.title.toLowerCase().includes(q) ||
-      song.artist?.name?.toLowerCase().includes(q)
-  );
-
-  renderSongs(filtered);
-});
-
-/* ============================
-   🚀 INIT
-============================ */
+/* INIT */
 loadSongs();

@@ -28,11 +28,9 @@
 <div class="flex">
 
   <aside class="hidden md:block w-64 h-screen sticky top-0 p-5 border-r border-zinc-800 glass">
-
     <h1 class="text-2xl font-extrabold mb-6">🎧 Cipher Song</h1>
 
     <nav class="space-y-4 text-zinc-300">
-
       <a class="block hover:text-white" href="index.html">🏠 Home</a>
       <a class="block hover:text-white" href="library.html">🎵 Your Library</a>
       <a class="block hover:text-white" href="playlist.html">📀 Playlists</a>
@@ -41,14 +39,12 @@
       <hr class="border-zinc-700 my-4">
 
       <a class="block hover:text-white" href="upload.html">⬆️ Upload Song</a>
-
       <a class="block hover:text-white" href="auth.html">🔐 Login</a>
       <a class="block hover:text-white" href="signup.html">🆕 Signup</a>
 
       <button onclick="logout()" class="w-full mt-4 bg-red-500 text-black py-2 rounded-lg font-semibold">
         Logout
       </button>
-
     </nav>
   </aside>
 
@@ -58,7 +54,6 @@
     <!-- 🔥 HERO SECTION -->
     <section class="p-6 md:p-10">
       <div class="rounded-3xl glass p-8 border border-zinc-800">
-
         <p class="text-sm text-green-400">Welcome Back</p>
 
         <h2 class="text-4xl md:text-5xl font-bold mt-2">
@@ -78,13 +73,21 @@
             Upload Music
           </a>
         </div>
-
       </div>
+    </section>
+
+    <!-- 🔍 SEARCH BAR -->
+    <section class="p-6 md:p-10 pt-0">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search songs or artists…"
+        class="w-full p-3 rounded-xl bg-zinc-900 border border-zinc-700 outline-none"
+      />
     </section>
 
     <!-- ⭐ TRENDING SONGS GRID -->
     <section class="p-6 md:p-10 pt-0">
-
       <h3 class="text-2xl font-bold mb-4">🔥 Trending Songs</h3>
 
       <div id="songList"
@@ -94,13 +97,9 @@
 
     <!-- 🎙️ TOP ARTISTS ROW -->
     <section class="p-6 md:p-10 pb-24">
-
       <h3 class="text-2xl font-bold mb-4">🎙️ Popular Artists</h3>
-
       <div id="artistRow" class="flex gap-5 overflow-x-auto pb-3">
-
         <!-- JS will fill -->
-
       </div>
     </section>
 
@@ -109,11 +108,8 @@
 
 <!-- ================= MINI PLAYER ================= -->
 <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-3">
-
   <div class="max-w-6xl mx-auto flex items-center gap-4">
-
     <img id="playerCover" class="w-14 h-14 rounded-lg object-cover bg-zinc-800" alt="cover">
-
     <div class="flex-1 overflow-hidden">
       <p id="playerTitle" class="font-semibold truncate">Select a song</p>
       <p id="playerArtist" class="text-xs text-zinc-400 truncate">—</p>
@@ -126,7 +122,6 @@
   </div>
 
   <input id="progress" type="range" value="0" class="w-full mt-2 accent-green-500"/>
-
   <audio id="audio"></audio>
 </div>
 

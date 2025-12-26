@@ -6,11 +6,11 @@ export function setupPlayer(state) {
     playBtn,
     progress,
     audio,
-    allSongs,
   } = state;
 
   const API = "https://cipher-song-2.onrender.com";
 
+  let allSongs = [];
   let currentSong = null;
   let currentIndex = -1;
   let isPlaying = false;
@@ -31,6 +31,10 @@ export function setupPlayer(state) {
     playBtn.textContent = "⏸";
   }
 
+  function setSongs(songs) {
+    allSongs = songs || [];
+  }
+
   playBtn.addEventListener("click", () => {
     if (!currentSong) return;
 
@@ -49,14 +53,18 @@ export function setupPlayer(state) {
   });
 
   progress.addEventListener("input", () => {
+    if (!audio.duration) return;
     audio.currentTime = (progress.value / 100) * audio.duration;
   });
 
   audio.addEventListener("ended", () => {
     if (currentIndex < allSongs.length - 1) {
       playSong(allSongs[currentIndex + 1]);
+    } else {
+      isPlaying = false;
+      playBtn.textContent = "▶";
     }
   });
 
-  return { playSong };
+  return { playSong, setSongs };
 }
