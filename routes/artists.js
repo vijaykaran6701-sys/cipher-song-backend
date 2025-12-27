@@ -32,7 +32,9 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     const artistData = { name, bio: desc || "" };
     if (req.file) {
-      artistData.image = path.join("uploads", "images", req.file.filename).replace(/\\/g, "/");
+      let imgPath = path.join("uploads", "images", req.file.filename).replace(/\\/g, "/");
+      if (!imgPath.startsWith("/")) imgPath = "/" + imgPath;
+      artistData.image = imgPath;
     }
 
     const artist = await Artist.create(artistData);

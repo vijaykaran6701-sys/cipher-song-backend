@@ -59,10 +59,12 @@ function renderSongs(songs) {
     card.className =
       "group bg-zinc-900 rounded-xl p-3 cursor-pointer hover:bg-zinc-800 transition";
 
+    const coverUrl = song.cover ? `${API}${song.cover}` : "images/placeholder.svg";
+
     card.innerHTML = `
       <div class="relative">
         <img
-          src="${API}/${song.cover}"
+          src="${coverUrl}"
           class="w-full aspect-square object-cover rounded-lg mb-3"
         />
 

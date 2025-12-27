@@ -106,6 +106,9 @@
     const songListEl = document.getElementById("songList");
     const audio = document.getElementById("audio");
 
+    // API base (update to your deployed backend)
+    const API = "https://cipher-song-2.onrender.com";
+
     const cover = document.getElementById("playerCover");
     const title = document.getElementById("playerTitle");
     const artist = document.getElementById("playerArtist");
@@ -116,15 +119,25 @@
     const progress = document.getElementById("progress");
     const searchInput = document.getElementById("searchInput");
 
+    // disable play until a playable song is selected
+    playBtn.disabled = true;
+    playBtn.classList.add("opacity-50");
+
     let allSongs = [];
     let currentSong = null;
     let currentIndex = -1;
     let isPlaying = false;
 
     async function loadSongs() {
-      const res = await fetch("http://localhost:7000/api/songs");
-      allSongs = await res.json();
-      renderSongs(allSongs);
+      try {
+        const res = await fetch(`${API}/api/songs`);
+        if (res.status === 401) return window.location.href = 'auth.html';
+        allSongs = await res.json();
+        renderSongs(allSongs);
+      } catch (err) {
+        console.error('Failed to load songs:', err);
+        songListEl.innerHTML = `<p class="text-zinc-400">Failed to load songs</p>`;
+      }
     }
 
     function renderSongs(songs) {
@@ -141,8 +154,10 @@
         row.className =
           "flex items-center gap-3 bg-zinc-900 p-2 rounded-lg cursor-pointer hover:bg-zinc-800";
 
+        const coverUrl = song.cover ? `${API}${song.cover}` : "images/placeholder.svg";
+
         row.innerHTML = `
-          <img src="http://localhost:7000/${song.cover}"
+          <img src="${coverUrl}"
                class="w-12 h-12 rounded object-cover" />
           <div class="flex-1">
             <p class="font-semibold">${song.title}</p>
@@ -161,15 +176,24 @@
       currentSong = song;
       currentIndex = allSongs.findIndex(s => s._id === song._id);
 
-      cover.src = `http://localhost:7000/${song.cover}`;
+      cover.src = song.cover ? `${API}${song.cover}` : "images/placeholder.svg";
       title.innerText = song.title;
       artist.innerText = song.artist?.name || "Unknown Artist";
 
-      audio.src = `http://localhost:7000/${song.audio}`;
-      audio.play();
-
-      isPlaying = true;
-      playBtn.innerText = "⏸";
+      if (song.audio) {
+        audio.src = `${API}${song.audio}`;
+        audio.play().catch(err => console.error("Playback failed:", err));
+        playBtn.disabled = false;
+        playBtn.classList.remove("opacity-50");
+        isPlaying = true;
+        playBtn.innerText = "⏸";
+      } else {
+        audio.src = "";
+        playBtn.disabled = true;
+        playBtn.classList.add("opacity-50");
+        isPlaying = false;
+        playBtn.innerText = "—";
+      }
     }
 
     playBtn.onclick = () => {

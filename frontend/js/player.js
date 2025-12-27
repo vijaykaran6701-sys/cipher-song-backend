@@ -15,20 +15,37 @@ export function setupPlayer(state) {
   let currentIndex = -1;
   let isPlaying = false;
 
+  // disable the play button until a song with audio is selected
+  try {
+    playBtn.disabled = true;
+    playBtn.classList.add("opacity-50");
+  } catch (e) {
+    // in case playBtn is not yet in DOM or not passed
+  }
+
   function playSong(song) {
     currentSong = song;
     currentIndex = allSongs.findIndex(s => s._id === song._id);
 
-    cover.src = `${API}/${song.cover}`;
+    cover.src = song.cover ? `${API}${song.cover}` : "images/placeholder.svg";
     title.textContent = song.title;
     artist.textContent = song.artist?.name || "Unknown Artist";
 
-    audio.src = `${API}/${song.audio}`;
-    audio.load();
-    audio.play();
-
-    isPlaying = true;
-    playBtn.textContent = "⏸";
+    if (song.audio) {
+      audio.src = `${API}${song.audio}`;
+      audio.load();
+      audio.play().catch(err => console.error("Playback failed:", err));
+      playBtn.disabled = false;
+      playBtn.classList.remove("opacity-50");
+      isPlaying = true;
+      playBtn.textContent = "⏸";
+    } else {
+      audio.src = "";
+      playBtn.disabled = true;
+      playBtn.classList.add("opacity-50");
+      isPlaying = false;
+      playBtn.textContent = "—";
+    }
   }
 
   function setSongs(songs) {
@@ -36,13 +53,14 @@ export function setupPlayer(state) {
   }
 
   playBtn.addEventListener("click", () => {
+    if (playBtn.disabled) return;
     if (!currentSong) return;
 
     if (isPlaying) {
       audio.pause();
       playBtn.textContent = "▶";
     } else {
-      audio.play();
+      audio.play().catch(err => console.error("Playback failed:", err));
       playBtn.textContent = "⏸";
     }
     isPlaying = !isPlaying;
@@ -50,6 +68,10 @@ export function setupPlayer(state) {
 
   audio.addEventListener("timeupdate", () => {
     progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+  });
+
+  audio.addEventListener("error", (e) => {
+    console.error("Audio element error:", e);
   });
 
   progress.addEventListener("input", () => {

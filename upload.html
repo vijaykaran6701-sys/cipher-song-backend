@@ -15,6 +15,7 @@
   <button onclick="uploadSong()">Upload</button>
 
   <script>
+    const API = "https://cipher-song-2.onrender.com"; // edit if needed
     function uploadSong() {
       const fd = new FormData();
       fd.append("title", document.getElementById("title").value);
@@ -22,7 +23,7 @@
       fd.append("audio", document.getElementById("audio").files[0]);
       fd.append("cover", document.getElementById("cover").files[0]);
 
-      fetch("/api/songs", {
+      fetch(`${API}/api/songs`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + document.getElementById("token").value.trim()

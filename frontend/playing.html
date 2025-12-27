@@ -83,24 +83,53 @@
     const playBtn = document.getElementById("playBtn");
     const progress = document.getElementById("progress");
 
+    // disable play until a playable song is loaded
+    playBtn.disabled = true;
+    playBtn.classList.add("opacity-50");
+
+    // API base (update to your deployed backend)
+    const API = "https://cipher-song-2.onrender.com";
+
     async function loadSong() {
-      const res = await fetch("http://localhost:7000/api/songs");
-      const songs = await res.json();
-      const song = songs[0];
+      try {
+        const res = await fetch(`${API}/api/songs`);
+        if (!res.ok) {
+          console.error('Songs API error', res.status);
+          return;
+        }
+        const songs = await res.json();
+        const song = songs[0];
 
-      document.getElementById("title").innerText = song.title;
-      document.getElementById("artist").innerText =
-        song.artist?.name || "Unknown Artist";
+        document.getElementById("title").innerText = song.title;
+        document.getElementById("artist").innerText =
+          song.artist?.name || "Unknown Artist";
 
-      document.getElementById("cover").src =
-        `http://localhost:7000/${song.cover}`;
+        document.getElementById("cover").src =
+          song.cover ? `${API}${song.cover}` : "images/placeholder.svg";
 
-      audio.src = `http://localhost:7000/${song.audio}`;
+        if (song.audio) {
+          audio.src = `${API}${song.audio}`;
+          playBtn.disabled = false;
+          playBtn.classList.remove("opacity-50");
+          playBtn.innerText = "⏸";
+        } else {
+          audio.src = "";
+          playBtn.disabled = true;
+          playBtn.classList.add("opacity-50");
+          playBtn.innerText = "—";
+        }
+
+        // tell backend we played the song
+        fetch(`${API}/api/songs/${song._id}/play`, { method: "PUT" }).catch(err => console.error("Play count update failed:", err));
+      } catch(err) {
+        console.error('Failed to load song:', err);
+      }
     }
 
     playBtn.onclick = () => {
+      if (playBtn.disabled) return;
       if (audio.paused) {
-        audio.play();
+        audio.play().catch(err => console.error("Playback failed:", err));
         playBtn.innerText = "⏸";
       } else {
         audio.pause();
@@ -117,9 +146,7 @@
     };
 
     loadSong();
-    fetch(`http://localhost:7000/api/songs/${song._id}/play`, {
-  method: "PUT"
-});
+    // play count update is handled after the song loads inside loadSong()
 
   </script>
 

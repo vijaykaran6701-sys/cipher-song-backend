@@ -9,7 +9,16 @@ const app = express();
 /* ======================
    MIDDLEWARES
 ====================== */
-app.use(cors());
+const FRONTEND_ORIGINS = [process.env.FRONTEND_ORIGIN || "https://cipher-songs2.pages.dev", "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:7000"];
+app.use(cors({
+  origin: (origin, cb) => {
+    // allow non-browser requests (like CLI tools) when origin is undefined
+    if (!origin) return cb(null, true);
+    if (FRONTEND_ORIGINS.includes(origin)) return cb(null, true);
+    cb(new Error("CORS policy: Origin not allowed"));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,7 +52,9 @@ app.get("/", (req, res) => {
 /* ======================
    DATABASE + SERVER
 ====================== */
-const PORT = 7000; // using port 7000 everywhere
+const PORT = process.env.PORT || 7000; // default port
+
+console.log("Allowed frontend origins:", FRONTEND_ORIGINS);
 
 mongoose
   .connect(process.env.MONGO_URI)
