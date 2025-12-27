@@ -1,17 +1,5 @@
 const API = "https://cipher-song-2.onrender.com";
 
-const token = localStorage.getItem("token");
-
-fetch(`${API}/api/songs`, {
-  method: "POST",
-  headers: {
-    Authorization: "Bearer " + token
-  },
-  body: formData
-});
-
-
-
 async function uploadSong() {
   const title = document.getElementById("title").value;
   const artistId = document.getElementById("artistId").value;
@@ -31,14 +19,24 @@ async function uploadSong() {
 
   try {
     const res = await fetch(`${API}/api/songs`, {
+      method: "POST",                         // 👈 important!
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      },
       body: formData
     });
 
     const data = await res.json();
+
     document.getElementById("output").innerText =
       JSON.stringify(data, null, 2);
+
+    if (!res.ok) alert("Upload failed ❌");
+    else alert("Song uploaded successfully 🎵");
   } catch (err) {
     alert("Upload failed");
     console.error(err);
   }
 }
+
+window.uploadSong = uploadSong;
